@@ -2,19 +2,14 @@ from pathlib import Path
 
 import pandas as pd
 
-
-# Project paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-
 RAW_FILE = PROJECT_ROOT / "data" / "raw" / "quotes_raw.csv"
 PROCESSED_FILE = PROJECT_ROOT / "data" / "processed" / "quotes_clean.csv"
-
 
 def load_data():
     """Load the raw scraped quote data."""
 
     return pd.read_csv(RAW_FILE)
-
 
 def clean_data(df):
     """Clean the quote dataset and create useful analytical columns."""
@@ -25,7 +20,6 @@ def clean_data(df):
         subset=["quote"]
     ).copy()
 
-    # Clean quote and author text.
     df["quote"] = (
         df["quote"]
         .astype(str)
@@ -38,7 +32,6 @@ def clean_data(df):
         .str.strip()
     )
 
-    # Clean tags and normalize capitalization.
     df["tags"] = (
         df["tags"]
         .fillna("")
@@ -62,13 +55,11 @@ def clean_data(df):
 
     df["tags"] = df["tags"].apply(clean_tags)
 
-    # Remove invalid rows.
     df = df[
         (df["quote"] != "")
         & (df["author"] != "")
     ].copy()
 
-    # Create analytical features.
     df["tag_count"] = df["tags"].apply(
         lambda tags: len(tags.split(", "))
         if tags
@@ -85,7 +76,6 @@ def clean_data(df):
 
     return df
 
-
 def save_data(df):
     """Save the cleaned dataset."""
 
@@ -100,7 +90,6 @@ def save_data(df):
     print(f"\nSaved cleaned dataset to:")
     print(PROCESSED_FILE)
 
-
 def main():
     """Run the complete data-cleaning process."""
 
@@ -113,14 +102,11 @@ def main():
     cleaned_df = clean_data(df)
 
     print(f"Cleaned rows: {len(cleaned_df)}")
-
     save_data(cleaned_df)
 
     print("\nData cleaning completed successfully.")
-
     print("\nDataset preview:")
     print(cleaned_df.head())
-
     print("\nDataset information:")
     print(cleaned_df.info())
 

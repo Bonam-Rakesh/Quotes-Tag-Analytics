@@ -1,20 +1,15 @@
 from collections import Counter
 from itertools import combinations
 from pathlib import Path
-
 import pandas as pd
 
-
-# Project paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = PROJECT_ROOT / "data" / "processed" / "quotes_clean.csv"
-
 
 def load_data():
     """Load the cleaned quote dataset."""
 
     return pd.read_csv(DATA_FILE)
-
 
 def get_all_tags(df):
     """Extract individual tags from the dataset."""
@@ -29,7 +24,6 @@ def get_all_tags(df):
                 all_tags.append(tag)
 
     return all_tags
-
 
 def dataset_summary(df):
     """Display high-level statistics about the dataset."""
@@ -47,7 +41,6 @@ def dataset_summary(df):
     print(f"Average quote size : {df['quote_length'].mean():.2f} characters")
     print(f"Average tag count  : {df['tag_count'].mean():.2f}")
 
-
 def author_analysis(df):
     """Analyze quote distribution across authors."""
 
@@ -58,7 +51,6 @@ def author_analysis(df):
     author_counts = df["author"].value_counts()
 
     print(author_counts.head(10).to_string())
-
 
 def tag_analysis(df):
     """Analyze the most frequently used tags."""
@@ -74,7 +66,6 @@ def tag_analysis(df):
     top_tags = pd.Series(tag_counts).sort_values(ascending=False)
 
     print(top_tags.head(15).to_string())
-
 
 def quote_length_analysis(df):
     """Analyze quote length and word count."""
@@ -99,7 +90,6 @@ def quote_length_analysis(df):
     print("\nLongest quote:")
     print(longest_quote["quote"])
     print(f"Author: {longest_quote['author']}")
-
     print("\nShortest quote:")
     print(shortest_quote["quote"])
     print(f"Author: {shortest_quote['author']}")
@@ -133,18 +123,15 @@ def tag_combinations(df):
     for pair, count in combinations_counter.most_common(10):
         print(f"{pair[0]} + {pair[1]} : {count}")
 
-
 def main():
     """Run the complete quote analysis."""
 
     df = load_data()
-
     dataset_summary(df)
     author_analysis(df)
     tag_analysis(df)
     quote_length_analysis(df)
     tag_combinations(df)
-
 
 if __name__ == "__main__":
     main()

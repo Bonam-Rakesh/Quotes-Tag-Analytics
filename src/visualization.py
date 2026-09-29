@@ -6,19 +6,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-
-# Project paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 DATA_FILE = PROJECT_ROOT / "data" / "processed" / "quotes_clean.csv"
 OUTPUT_DIR = PROJECT_ROOT / "visualizations"
 
-
 def load_data():
     """Load the cleaned quote dataset."""
 
     return pd.read_csv(DATA_FILE)
-
 
 def save_figure(filename):
     """Save the current matplotlib figure."""
@@ -32,7 +28,6 @@ def save_figure(filename):
     plt.show()
 
     print(f"Saved visualization: {filepath}")
-
 
 def plot_top_tags(df):
     """Create a chart of the most frequently used tags."""
@@ -66,7 +61,6 @@ def plot_top_tags(df):
 
     save_figure("top_10_tags.png")
 
-
 def plot_top_authors(df):
     """Create a chart of authors with the most quotes."""
 
@@ -90,7 +84,6 @@ def plot_top_authors(df):
 
     save_figure("top_10_authors.png")
 
-
 def plot_quote_length_distribution(df):
     """Show the distribution of quote lengths."""
 
@@ -108,7 +101,6 @@ def plot_quote_length_distribution(df):
 
     save_figure("quote_length_distribution.png")
 
-
 def plot_word_count_distribution(df):
     """Show the distribution of words per quote."""
 
@@ -125,7 +117,6 @@ def plot_word_count_distribution(df):
     plt.ylabel("Number of Quotes")
 
     save_figure("word_count_distribution.png")
-
 
 def plot_tag_combinations(df):
     """Visualize the most common tag combinations."""
@@ -178,7 +169,6 @@ def plot_tag_combinations(df):
 
     save_figure("top_tag_combinations.png")
 
-
 def main():
     """Generate all project visualizations."""
 
@@ -193,7 +183,6 @@ def main():
     plot_tag_combinations(df)
 
     print("\nAll visualizations generated successfully.")
-
 
 if __name__ == "__main__":
     main()

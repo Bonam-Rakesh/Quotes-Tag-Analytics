@@ -6,7 +6,6 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 OUTPUT_FILE = PROJECT_ROOT / "data" / "raw" / "quotes_raw.csv"
@@ -191,33 +190,25 @@ def combine_quotes(scraped_quotes, additional_quotes):
         .astype(str)
         .str.strip()
     )
-
     combined_df["author"] = (
         combined_df["author"]
         .astype(str)
         .str.strip()
     )
-
     combined_df["tags"] = (
         combined_df["tags"]
         .fillna("")
         .astype(str)
         .str.strip()
     )
-
-    # Remove duplicate quotes.
     combined_df = combined_df.drop_duplicates(
         subset=["quote"],
         keep="first",
     )
-
-    # Remove invalid records.
     combined_df = combined_df[
         (combined_df["quote"] != "")
         & (combined_df["author"] != "")
     ]
-
-    # Keep exactly 250 quotes.
     combined_df = combined_df.head(
         TARGET_QUOTES
     )
@@ -244,21 +235,14 @@ def save_data(df):
     print("\nFinal dataset saved to:")
     print(OUTPUT_FILE)
 
-
 def main():
 
     print("=" * 60)
     print("QUOTES TAG ANALYTICS - DATA COLLECTION")
     print("=" * 60)
-
     scraped_quotes = scrape_quotes()
-
     additional_quotes = load_quotable_data()
-
-    final_df = combine_quotes(
-        scraped_quotes,
-        additional_quotes,
-    )
+    final_df = combine_quotes(scraped_quotes,additional_quotes,)
 
     if final_df.empty:
 
@@ -270,34 +254,13 @@ def main():
     print("\n" + "=" * 60)
     print("DATA COLLECTION COMPLETED")
     print("=" * 60)
-
-    print(
-        f"Original scraped quotes : "
-        f"{len(scraped_quotes)}"
-    )
-
-    print(
-        f"Additional quotes       : "
-        f"{len(additional_quotes)}"
-    )
-
-    print(
-        f"Final unique quotes     : "
-        f"{len(final_df)}"
-    )
-
+    print(f"Original scraped quotes : "f"{len(scraped_quotes)}")
+    print(f"Additional quotes : "f"{len(additional_quotes)}")
+    print(f"Final unique quotes : "f"{len(final_df)}")
     print("\nColumns:")
-
-    print(
-        list(final_df.columns)
-    )
-
+    print(list(final_df.columns))
     print("\nFirst 5 records:")
-
-    print(
-        final_df.head()
-    )
-
+    print(final_df.head())
 
 if __name__ == "__main__":
     main()
